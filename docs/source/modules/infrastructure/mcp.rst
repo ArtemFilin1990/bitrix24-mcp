@@ -31,3 +31,8 @@ Handlers
    :members:
    :undoc-members:
    :show-inheritance: 
+
+.. automodule:: src.infrastructure.mcp.handlers.task
+   :members:
+   :undoc-members:
+   :show-inheritance:
