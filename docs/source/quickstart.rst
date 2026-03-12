@@ -28,9 +28,9 @@ After installation and configuration, start the MCP server:
 
 .. code-block:: bash
 
-   python main.py
-   # or if installed globally
-   mcp-server-b24
+   uvx bitrix24-mcp
+   # or if installed as a script
+   bitrix24-mcp
 
 Testing the Installation
 =====================
@@ -39,4 +39,4 @@ To verify basic Bitrix24 API integration, run the test script:
 
 .. code-block:: bash
 
-   python test_services.py
+   python -m tests.services
