@@ -4,22 +4,13 @@ Quick Start
 Configuration
 ============
 
-The server requires your Bitrix24 webhook URL. You can set it in one of two ways:
-
-1. Environment variable:
+The server requires your Bitrix24 webhook URL via environment variable:
 
 .. code-block:: bash
 
    export BITRIX_WEBHOOK_URL="https://your-domain.bitrix24.ru/rest/1/yoursecretcode/"
 
-2. `.env` file:
-
-.. code-block:: ini
-
-   # .env
-   BITRIX_WEBHOOK_URL="https://your-domain.bitrix24.ru/rest/1/yoursecretcode/"
-   # Optional log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
-   # LOG_LEVEL=INFO
+You can read Bitrix24 REST API docs here: https://apidocs.bitrix24.ru/
 
 Running the Server
 ================
