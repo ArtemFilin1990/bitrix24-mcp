@@ -5,13 +5,13 @@
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
-import os
 import sys
+from pathlib import Path
 
-sys.path.insert(0, os.path.abspath("../../"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 project = "bitrix24-mcp"
-copyright = "2025, kartochka"
+copyright = "2025, kartochka"  # noqa: A001
 author = "kartochka"
 release = "0.1.0"
 

@@ -5,7 +5,6 @@
 
 from typing import TYPE_CHECKING, cast
 
-
 from src.domain.entities.contact import Contact
 from src.infrastructure.bitrix.repository_factory import BitrixRepositoryFactory
 

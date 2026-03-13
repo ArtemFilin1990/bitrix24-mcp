@@ -3,7 +3,7 @@
 Предоставляет единую точку инициализации и получения зависимостей.
 """
 
-from dishka import make_container, Provider, Scope, provide
+from dishka import Provider, Scope, make_container, provide
 from fast_bitrix24 import Bitrix
 
 from src.application.services.contact import ContactService
@@ -18,7 +18,7 @@ from src.infrastructure.mcp.server import BitrixMCPServer
 
 class DependencyProvider(Provider):
     """Главный провайдер зависимостей приложения."""
-    
+
     def __init__(self) -> None:
         super().__init__()
         self.bitrix_webhook_url = SettingsManager.get().BITRIX_WEBHOOK_URL
@@ -27,7 +27,7 @@ class DependencyProvider(Provider):
     def provide_bitrix_webhook_url(self) -> str:
         """Предоставляет URL вебхука Bitrix."""
         return self.bitrix_webhook_url
-    
+
     @provide(scope=Scope.APP)
     def provide_repository_factory(self) -> BitrixRepositoryFactory:
         """Создание фабрики репозиториев Bitrix24.
@@ -43,17 +43,17 @@ class DependencyProvider(Provider):
                 BitrixDealRepository(bitrix_client, contact_repository),
             ],
         )
-    
+
     @provide(scope=Scope.APP)
     def provide_mcp_server(self) -> BitrixMCPServer:
         """Предоставляет сервер MCP."""
         return BitrixMCPServer()
-    
+
     @provide(scope=Scope.APP)
     def provide_contact_service(self, repository_factory: BitrixRepositoryFactory) -> ContactService:
         """Предоставляет сервис для работы с контактами."""
         return ContactService(repository_factory)
-    
+
     @provide(scope=Scope.APP)
     def provide_deal_service(self, repository_factory: BitrixRepositoryFactory) -> DealService:
         """Предоставляет сервис для работы со сделками."""

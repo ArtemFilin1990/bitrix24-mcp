@@ -6,12 +6,12 @@
 import json
 
 from src.domain.entities.contact import Contact
+
+# Create the contact service instance.
+# In production these dependencies should come from the DI container.
+from src.infrastructure.ioc import provider
 from src.infrastructure.logging.logger import logger
 from src.infrastructure.mcp.server import BitrixMCPServer
-
-# Создаем экземпляр сервиса контактов
-# В реальном приложении эти зависимости должны предоставляться через DI контейнер
-from src.infrastructure.ioc import provider
 
 # Получаем зависимости напрямую из провайдера
 bitrix_webhook_url = provider.provide_bitrix_webhook_url()

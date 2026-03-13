@@ -57,6 +57,7 @@ class BitrixDealRepository(
     _deal_category_stage_list_method: ClassVar[str] = (
         "crm.dealcategory.stage.list"
     )
+    _bitrix_list_page_size: ClassVar[int] = 50
 
     def __init__(
         self,
@@ -140,15 +141,15 @@ class BitrixDealRepository(
             else:
                 params[self._order_param_name] = {"DATE_CREATE": "DESC"}
 
-            if limit > 50 or limit == -1:
+            if limit > self._bitrix_list_page_size or limit == -1:
                 results: list[dict[str, Any]] = await self._safe_call(
                     self.batch_list,
                     error_message,
                     [],
                     method=self._bitrix_list_method,
                     params={
-                        self._select_param_name: ["*", "UF_*"]
-                    }
+                        self._select_param_name: ["*", "UF_*"],
+                    },
                 )
                 results = results[:limit] if limit != -1 else results
             else:
