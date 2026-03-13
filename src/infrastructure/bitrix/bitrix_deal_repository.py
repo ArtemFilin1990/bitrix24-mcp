@@ -248,54 +248,59 @@ class BitrixDealRepository(
             logger.error(f"{error_message}: {e}")
             return False
 
-    async def get_categories(self) -> dict[str, Any]:
+    async def get_categories(self) -> list[dict[str, Any]]:
         """Получение списка категорий сделок.
 
-        :return: Словарь с категориями сделок
+        :return: Список категорий сделок
         """
         error_message = "Ошибка при получении списка категорий сделок"
 
         try:
-            response = await self._safe_call(
+            response: dict[str, Any] = await self._safe_call(
                 self._bitrix.call,
                 error_message,
-                None,
+                {"result": []},
                 self._deal_category_list_method,
+                {"start": 0},
+                raw=True,
             )
 
             if not response or "result" not in response:
                 logger.warning(f"{error_message}: получен некорректный ответ")
-                return {}
+                return []
 
-            return response.get("result", {})
+            result = response.get("result", [])
+            return result if isinstance(result, list) else []
         except Exception as e:
             logger.error(f"{error_message}: {e}")
-            return {}
+            return []
 
-    async def get_stages(self, category_id: int = 0) -> dict[str, Any]:
+    async def get_stages(self, category_id: int = 0) -> list[dict[str, Any]]:
         """Получение списка стадий сделок для указанной категории.
 
         :param category_id: Идентификатор категории
-        :return: Словарь со стадиями сделок
+        :return: Список стадий сделок
         """
         error_message = (
             f"Ошибка при получении стадий для категории ID={category_id}"
         )
 
         try:
-            response = await self._safe_call(
+            response: dict[str, Any] = await self._safe_call(
                 self._bitrix.call,
                 error_message,
-                None,
+                {"result": []},
                 self._deal_category_stage_list_method,
                 {"ID": category_id},
+                raw=True,
             )
 
             if not response or "result" not in response:
                 logger.warning(f"{error_message}: получен некорректный ответ")
-                return {}
+                return []
 
-            return response.get("result", {})
+            result = response.get("result", [])
+            return result if isinstance(result, list) else []
         except Exception as e:
             logger.error(f"{error_message}: {e}")
-            return {}
+            return []

@@ -134,10 +134,17 @@ class DealService:
         """
         return await self._deal_repository.update(deal_id, deal)
 
-    async def get_deal_stages(self, category_id: int = 0) -> dict[str, Any]:
+    async def get_deal_stages(self, category_id: int = 0) -> list[dict[str, Any]]:
         """Получение списка стадий сделок для указанной категории.
 
         :param category_id: Идентификатор категории
-        :return: Словарь со стадиями сделок
+        :return: Список стадий сделок
         """
         return await self._deal_repository.get_stages(category_id)
+
+    async def get_deal_categories(self) -> list[dict[str, Any]]:
+        """Получение списка категорий сделок.
+
+        :return: Список категорий сделок
+        """
+        return await self._deal_repository.get_categories()

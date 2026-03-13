@@ -7,11 +7,11 @@ import json
 from typing import Any
 
 from src.domain.entities.deal import Deal
-from src.infrastructure.logging.logger import logger
-from src.infrastructure.mcp.server import BitrixMCPServer
 
 # Получаем зависимости напрямую из провайдера
 from src.infrastructure.ioc import provider
+from src.infrastructure.logging.logger import logger
+from src.infrastructure.mcp.server import BitrixMCPServer
 
 # Создаем зависимости напрямую
 repository_factory = provider.provide_repository_factory()
@@ -33,6 +33,12 @@ def register_deal_handlers(mcp_server: BitrixMCPServer) -> None:
         list_deals,
         name="list_deals",
         description="Получение списка сделок с возможностью фильтрации",
+    )
+
+    mcp_server.add_tool(
+        get_deal_stages,
+        name="get_deal_stages",
+        description="Получение списка стадий сделок по категории",
     )
 
     mcp_server.add_tool(
@@ -110,6 +116,32 @@ async def list_deals(
         "total": len(deals),
         "filters": filter_info,
         "deals": [json.loads(deal.to_str_json()) for deal in deals],
+    }
+
+    return json.dumps(result)
+
+
+async def get_deal_stages(
+    category_id: int = 0,
+) -> str:
+    """Получение списка стадий сделки по категории (инструмент).
+
+    :param category_id: Идентификатор категории сделок
+    :return: JSON-строка со списком стадий
+    """
+    if category_id < 0:
+        return json.dumps(
+            {
+                "error": "Недопустимое значение category_id. Используйте 0 или положительное целое число",
+            },
+        )
+
+    stages = await deal_service.get_deal_stages(category_id)
+
+    result = {
+        "category_id": category_id,
+        "total": len(stages),
+        "stages": stages,
     }
 
     return json.dumps(result)

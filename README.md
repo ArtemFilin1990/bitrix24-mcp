@@ -52,7 +52,7 @@ export BITRIX_WEBHOOK_URL="https://your-domain.bitrix24.ru/rest/1/yoursecretcode
 запустите MCP сервер:
 
 ```bash
-uvx bitrix24-mcp
+uv run bitrix24-mcp
 ```
 
 Вы увидите логи в консоли, включая информацию о зарегистрированных MCP инструментах и ресурсах.
@@ -62,7 +62,7 @@ uvx bitrix24-mcp
 Для проверки базовой работоспособности интеграции с Bitrix24 API можно запустить тестовый скрипт:
 
 ```bash
-python test_services.py
+uv run python tests/services.py
 ```
 Скрипт выполнит несколько запросов к API Bitrix24 (получение списка контактов, получение контакта по ID, и т.д.) и выведет результаты.
 
@@ -92,8 +92,12 @@ python test_services.py
     *   **Возвращает:** JSON-строка с данными сделки.
 *   `tool://list_deals`
     *   **Описание:** Получение списка сделок с возможностью фильтрации.
-    *   **Параметры:** `active_only: bool = False`, `contact_id: int | None = None`, `company_id: int | None = None`, `limit: int = 50`
+    *   **Параметры:** `active_only: bool = False`, `contact_id: int | None = None`, `company_id: int | None = None`, `limit: int = -1`
     *   **Возвращает:** JSON-строка со списком сделок.
+*   `tool://get_deal_stages`
+    *   **Описание:** Получение списка стадий сделок по категории.
+    *   **Параметры:** `category_id: int = 0`
+    *   **Возвращает:** JSON-строка вида `{"category_id": ..., "total": ..., "stages": [...]}`.
 *   `tool://update_deal_stage`
     *   **Описание:** Обновление стадии сделки.
     *   **Параметры:** `deal_id: int`, `stage_id: str` (например, `C14:WON`)
